@@ -35,8 +35,13 @@ apache_dir  = node['apache']['dir']
 ruby_block "Calculate node['rvm_passenger']['module_path']" do
   block do
     root_path = node['rvm_passenger']['root_path']
+    ext_dir =  'buildout'
 
-    ext_dir = (node['rvm_passenger']['version'].split('.')[0].to_i < 4) ? 'ext' : 'libout'
+    if node['rvm_passenger']['version'] < '4'
+      ext_dir = 'ext'
+    elsif node['rvm_passenger']['version'].split('.').last.to_i < 6
+      ext_dir = 'libout'      
+    end
 
     node.set['rvm_passenger']['module_path'] =
       "#{root_path}/#{ext_dir}/apache2/mod_passenger.so"
