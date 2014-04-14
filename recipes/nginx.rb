@@ -24,7 +24,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-include_recipe "nginx::source"
+include_recipe "nginx::package"
 include_recipe "rvm_passenger"
 
 configure_flags = node['nginx']['configure_flags'].empty? ? 'none' : node['nginx']['configure_flags'].join(" ")
